@@ -1,3 +1,5 @@
+//---- Packages ----//
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -16,7 +18,8 @@ schema
     .has().not().spaces()                           // Should not have spaces
     .is().not().oneOf(['Passw0rd', 'Password123']); // Blacklist these values
 
-//
+//---- middleware pour s'inscrire ----//
+
 exports.signup = (req, res, next) =>{
     if (!schema.validate(req.body.password)){
         return res.status(400).json({ message: 'Mot de passe non valide, votre mot de passe doit contenir au moins 8 caractères, dont une majuscule et au minimum 2 chiffres !'})
@@ -33,6 +36,9 @@ exports.signup = (req, res, next) =>{
         })
         .catch(error => res.status(500).json({error}));
 };
+
+//---- middleware de connexion ----//
+
 exports.login = (req, res, next) =>{
     User.findOne({ email: req.body.email})
         .then(user => {

@@ -1,5 +1,9 @@
+//---- Packages ----//
+
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
+
+//---- Schema d'authentification ----//
 
 const userSchema = mongoose.Schema({
     email: {type: String, required: true, unique: true},

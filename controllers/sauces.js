@@ -1,5 +1,11 @@
+//---- Packages ----//
+
 const Sauce = require("../models/sauces");
 const fs = require('fs');
+
+//-------------------------- Logique métier --------------------------//
+
+//---- middleware de création de sauce ----//
 
 exports.createSauce = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce);
@@ -16,6 +22,9 @@ exports.createSauce = (req, res, next) => {
         .catch(error => res.status(400).json({error}));
 
 };
+
+//---- middleware de modification de sauce ----//
+
 exports.modifySauce = (req, res, next) => {
     const sauceObject = req.file ?
         {
@@ -26,6 +35,9 @@ exports.modifySauce = (req, res, next) => {
         .then(() => res.status(200).json({message: 'La sauce a bien été modifié !'}))
         .catch(error => res.status(404).json({error}));
 };
+
+//---- middleware de suppression de sauce ----//
+
 exports.deleteSauce = (req, res, next) => {
     Sauce.findOne({_id: req.params.id})
         .then(sauce => {
@@ -38,16 +50,25 @@ exports.deleteSauce = (req, res, next) => {
         })
         .catch(error => res.status(500).json({error}));
 };
+
+//---- middleware de sélection d'une sauce de sauce ----//
+
 exports.getOneSauce = (req, res, next) => {
     Sauce.findOne({_id: req.params.id})
         .then(sauce => res.status(200).json(sauce))
         .catch(error => res.status(404).json({error}));
 };
+
+//---- middleware de sélection de toutes les sauces ----//
+
 exports.getAllSauces = (req, res, next) => {
     Sauce.find()
         .then(sauces => res.status(200).json(sauces))
         .catch(error => res.status(400).json({error}));
 };
+
+//---- middleware de like et dislike des sauces ----//
+
 exports.postLikeSauce = (req, res, next) => {
     Sauce.findOne({_id: req.params.id})
         .then(sauce => {

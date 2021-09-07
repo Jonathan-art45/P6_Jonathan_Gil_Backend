@@ -1,10 +1,14 @@
+//---- Package ----//
+
 const multer = require('multer');
+
 const MIME_TYPES = {
     'images/jpg': 'jpg',
     'images/jpeg': 'jpeg',
     'images/png': 'png',
 }
 
+//---- Configuration du multer : destination et nom du fichier télécharger ----//
 const storage = multer.diskStorage({
     destination: (req, file, callback) =>{
         callback(null, 'images')

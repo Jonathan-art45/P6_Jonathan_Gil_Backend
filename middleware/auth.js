@@ -1,4 +1,8 @@
+//---- Packages ----//
+
 const jwt = require('jsonwebtoken');
+
+//---- middleware d'authentification pour vérification ----//
 
 module.exports = (req,res,next) =>{
     try {

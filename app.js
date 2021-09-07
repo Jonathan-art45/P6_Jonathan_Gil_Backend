@@ -1,3 +1,5 @@
+//---- Packages ----//
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -9,13 +11,19 @@ const userRoutes = require('./routes/user');
 
 const app = express();
 
+//---- Liaison de l'API à la base de données avec mongoDB ----//
+
 mongoose.connect('mongodb+srv://admin_jo:saucejojo@cluster0.hutle.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
     { useNewUrlParser: true,
         useUnifiedTopology: true })
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
 
+//---- Sécurisation d'Express ----//
+
 app.use(helmet());
+
+//---- Ajout de headers pour autoriser l'accès a l'API ----//
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');

@@ -1,4 +1,8 @@
+//---- Packages ----//
+
 const mongoose = require('mongoose');
+
+//---- Schema pour la creation de sauce ----//
 
 const sauceSchema = mongoose.Schema({
     userId: {type: String, required: true},
