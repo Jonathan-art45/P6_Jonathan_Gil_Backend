@@ -3,12 +3,14 @@ const app = require('./app');
 const rateLimit = require("express-rate-limit");
 const cookieSession = require('cookie-session')
 
-const crtlLogin = rateLimit({
-    windowMs: 60 * 60 * 1000, // 1 hour window
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 1 hour window
     max: 5, // start blocking after 5 requests
     message:
-        "Trop de tentative de connexion veuillez réessayer ultérieurement !"
+        "Trop de tentative de connexion veuillez réessayer dans 15min !"
 });
+
+app.use(limiter);
 
 app.use(cookieSession({
     name: 'session',
