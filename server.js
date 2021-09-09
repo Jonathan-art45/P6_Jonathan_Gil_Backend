@@ -1,5 +1,22 @@
 const http = require('http');
 const app = require('./app');
+const rateLimit = require("express-rate-limit");
+const cookieSession = require('cookie-session')
+
+const crtlLogin = rateLimit({
+    windowMs: 60 * 60 * 1000, // 1 hour window
+    max: 5, // start blocking after 5 requests
+    message:
+        "Trop de tentative de connexion veuillez réessayer ultérieurement !"
+});
+
+app.use(cookieSession({
+    name: 'session',
+    keys: ['My_KEYS'],
+
+    // Cookie Options
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+}))
 
 const normalizePort = val => {
     const port = parseInt(val, 10);

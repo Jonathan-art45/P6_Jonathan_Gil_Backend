@@ -93,7 +93,7 @@ exports.postLikeSauce = (req, res, next) => {
                     if (sauce.usersLiked.includes(req.body.userId)) {
                         Sauce.updateOne(
                             {_id: req.params.id},
-                            {$pull: {usersLiked: req.body.userId}, $inc: {likes: -1}}
+                            {$pull: {usersLiked: req.body.userId},$inc: {likes: -1}}
                         )
                             .then(() => res.status(200).json({message: 'un like retiré !'}))
                             .catch((error) => res.status(400).json({error}))
@@ -101,7 +101,7 @@ exports.postLikeSauce = (req, res, next) => {
                     if (sauce.usersDisliked.includes(req.body.userId)) {
                         Sauce.updateOne(
                             {_id: req.params.id},
-                            {$pull: {usersDisliked: req.body.userId}, $inc: {dislikes: -1}}
+                            {$pull: {usersDisliked: req.body.userId}, $inc: {dislikes: +1}}
                         )
                             .then(() => res.status(200).json({message: 'un dislike retiré !'}))
                             .catch((error) => res.status(400).json({error}))

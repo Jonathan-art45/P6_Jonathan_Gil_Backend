@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const helmet = require('helmet');
 
+
 const sauceRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
 
@@ -14,7 +15,7 @@ const app = express();
 
 //---- Liaison de l'API à la base de données avec mongoDB ----//
 
-mongoose.connect('${process.env.CONECT}',
+mongoose.connect(process.env.CONECT,
     { useNewUrlParser: true,
         useUnifiedTopology: true })
     .then(() => console.log('Connexion à MongoDB réussie !'))
