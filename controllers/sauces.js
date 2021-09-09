@@ -75,19 +75,14 @@ exports.postLikeSauce = (req, res, next) => {
             console.log(sauce);
             console.log(req.body.like);
             switch (req.body.like) {
-                case 1 :
-                    if (sauce.usersLiked.includes(req.body.userId)) {
-                        res.status(409).json({error: "Utilisateur a déjà liké cette sauce !"})
-                    } else {
-                        Sauce.updateOne({_id: req.params.id}, {
-                            _id: req.params.id,
-                            $inc: {likes: +1},
-                            $push: {usersLiked: req.body.userId},
-                        })
-                            .then(() => res.status(201).json({message: "Like enregistré !"}))
-                            .catch(error => res.status(400).json({error}));
-                    }
-                    console.log("like");
+                case 1:
+                    Sauce.updateOne({ _id: req.params.id }, {
+                        _id: req.params.id,
+                        $inc: { likes: + req.body.like },
+                        $push: { usersLiked: req.body.userId },
+                    })
+                        .then(() => res.status(201).json({message: "Like enregistré !"}))
+                        .catch(error => res.status(400).json({error}));
                     break;
                 case 0 :
                     if (sauce.usersLiked.includes(req.body.userId)) {
@@ -101,7 +96,7 @@ exports.postLikeSauce = (req, res, next) => {
                     if (sauce.usersDisliked.includes(req.body.userId)) {
                         Sauce.updateOne(
                             {_id: req.params.id},
-                            {$pull: {usersDisliked: req.body.userId}, $inc: {dislikes: +1}}
+                            {$pull: {usersDisliked: req.body.userId}, $inc: {dislikes: -1}}
                         )
                             .then(() => res.status(200).json({message: 'un dislike retiré !'}))
                             .catch((error) => res.status(400).json({error}))
@@ -109,19 +104,14 @@ exports.postLikeSauce = (req, res, next) => {
                     }
                     res.status(200).json({message : "ok"});
                     break;
-                case -1 :
-                    if (sauce.usersDisliked.includes(req.body.userId)) {
-                        res.status(409).json({error: "Utilisateur a déjà disliké cette sauce !"})
-                    } else {
-                        Sauce.updateOne({_id: req.params.id}, {
-                            _id: req.params.id,
-                            $inc: {likes: -1},
-                            $push: {usersDisliked: req.body.userId},
-                        })
-                            .then(() => res.status(201).json({message: "Dislike enregistré !"}))
-                            .catch(error => res.status(400).json({error}));
-                    }
-                    console.log("dislike");
+                case -1:
+                    Sauce.updateOne({ _id: req.params.id }, {
+                        _id: req.params.id,
+                        $inc: { dislikes: + req.body.like * -1 },
+                        $push: { usersDisliked: req.body.userId },
+                    })
+                        .then(() => res.status(201).json({message: "Dislike enregistré !"}))
+                        .catch(error => res.status(400).json({error}));
                     break;
             }
         })
